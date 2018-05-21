@@ -17,17 +17,17 @@ class Loginscreen extends Component {
       <div>
       <MuiThemeProvider>
         <div>
-           <RaisedButton label={"Registrarse como paciente"} primary={true} style={style} onClick={(event) => this.handleClick(event,'student')}/>
+           <RaisedButton label={"Registrarse como paciente"} primary={true} style={style} onClick={(event) => this.handleClick(event,'paciente')}/>
        </div>
        </MuiThemeProvider>
        <MuiThemeProvider>
        <div>
-          <RaisedButton label={"Registrarse como médico"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
+          <RaisedButton label={"Registrarse como médico"} primary={true} style={style} onClick={(event) => this.handleClick(event,'médico')}/>
       </div>
       </MuiThemeProvider>
       <MuiThemeProvider>
        <div>
-          <RaisedButton label={"Registrarse como secretaria"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
+          <RaisedButton label={"Registrarse como secretaria"} primary={true} style={style} onClick={(event) => this.handleClick(event,'secretaria')}/>
       </div>
       </MuiThemeProvider>
       </div>
