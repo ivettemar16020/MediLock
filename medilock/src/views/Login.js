@@ -3,6 +3,8 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import React, { Component}  from 'react';
 import { IconButton } from 'material-ui';
 
@@ -12,6 +14,8 @@ class Login extends Component {
         this.state={
             username:'',
             contrasena:'',
+            role:'Paciente',
+            floatinTextUsername:'ID Paciente',
             errorTextUsername:'',
             errorTextContrasena:''
         }
@@ -19,6 +23,7 @@ class Login extends Component {
         this.handleCambiarAOlvideContrasenaView = this.handleCambiarAOlvideContrasenaView.bind(this);
         this.handleCambiarARegstrarmeView = this.handleCambiarARegstrarmeView.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleRoleChange = this.handleRoleChange.bind(this);
     }
 
     /* Cambia el valor de 'view' en la clase de Loginscreen para ir a la pantalla de 'Olvide Contraseña' */
@@ -77,6 +82,13 @@ class Login extends Component {
         /* El valor del usuario y contraseña se obtiene 'this.state.username' y 'this.state.contrasena' respectivamente */
     }
 
+    /* Funcion que se llama al hacer cambio de Rol */
+    handleRoleChange(value){
+        var floatingTextUser = 'ID ' + value;
+        this.setState({role:value});
+        this.setState({floatinTextUsername:floatingTextUser});
+    }
+
     render() {
         return (
             <div>
@@ -88,8 +100,21 @@ class Login extends Component {
                         />
                         <img src={require("../images/logoMedilock.jpg")} style={{marginLeft: 220, marginTop: 20}}/>
 
+                        <SelectField
+                                floatingLabelText="Rol"
+                                value={this.state.role}
+                                onChange = {(event, index, value) => this.handleRoleChange(value)}
+                                style={styleText}
+                            >
+                                <MenuItem value={'Paciente'} primaryText="Paciente"/>
+                                <MenuItem value={'Medico'} primaryText="Medico"/>
+                                <MenuItem value={'Secretaria'} primaryText="Secretaria"/>
+                            </SelectField>
+                            <br/>
+
                         <TextField 
-                            floatingLabelText="Usuario"
+                            floatingLabelText={this.state.floatinTextUsername}
+                            hintText='Ingresa tu nombre de usuario'
                             onChange = {(event,newValue) => this.setState({username:newValue})}
                             value={this.state.username}
                             style={styleText}
@@ -99,6 +124,7 @@ class Login extends Component {
                         <TextField
                             type="password"
                             floatingLabelText="Contraseña"
+                            hintText='Ingresa tu contraseña'
                             onChange = {(event,newValue) => this.setState({contrasena:newValue})}
                             value={this.state.contrasena}
                             style={styleText}
