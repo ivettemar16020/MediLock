@@ -17,12 +17,17 @@ class Loginscreen extends Component {
       <div>
       <MuiThemeProvider>
         <div>
-           <RaisedButton label={"Register as Student"} primary={true} style={style} onClick={(event) => this.handleClick(event,'student')}/>
+           <RaisedButton label={"Registrarse como paciente"} primary={true} style={style} onClick={(event) => this.handleClick(event,'student')}/>
        </div>
        </MuiThemeProvider>
        <MuiThemeProvider>
        <div>
-          <RaisedButton label={"Register as Teacher"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
+          <RaisedButton label={"Registrarse como médico"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
+      </div>
+      </MuiThemeProvider>
+      <MuiThemeProvider>
+       <div>
+          <RaisedButton label={"Registrarse como secretaria"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
       </div>
       </MuiThemeProvider>
       </div>
@@ -33,15 +38,16 @@ class Loginscreen extends Component {
       loginscreen:[],
       loginmessage:'',
       loginButtons:loginButtons,
-      studentbuttonLabel:'Register as Student',
-      teacherbuttonLabel:'Register as Teacher',
+      studentbuttonLabel:'Registrarse como paciente',
+      teacherbuttonLabel:'Registrarse como médico',
+      secretariabuttonLabel: 'Registrarse como secretaria',
       isLogin:true
     }
   }
   componentWillMount(){
     var loginscreen=[];
     loginscreen.push(<Login parentContext={this} appContext={this.props.appContext}/>);
-    var loginmessage = "Not registered yet, Register Now";
+    var loginmessage = "¿Aún no tienes cuenta? ¡Registrate ya!";
     this.setState({
                   loginscreen:loginscreen,
                   loginmessage:loginmessage
@@ -53,7 +59,7 @@ class Loginscreen extends Component {
     if(this.state.isLogin){
       let loginscreen=[];
       loginscreen.push(<Register parentContext={this} appContext={this.props.appContext} role={userRole}/>);
-      loginmessage = "Already registered.Go to Login";
+      loginmessage = "¿Ya tienes una cuenta? ¡Inicia sesión! ";
       let loginButtons=[];
       loginButtons.push(
         <div key="login-button">
@@ -77,18 +83,23 @@ class Loginscreen extends Component {
         <div>
         <MuiThemeProvider>
           <div>
-             <RaisedButton label={"Register as Student"} primary={true} style={style} onClick={(event) => this.handleClick(event,'student')}/>
+             <RaisedButton label={"Registrarse como paciente"} primary={true} style={style} onClick={(event) => this.handleClick(event,'student')}/>
          </div>
          </MuiThemeProvider>
          <MuiThemeProvider>
          <div>
-            <RaisedButton label={"Register as Teacher"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
+            <RaisedButton label={"Registrarse como médico"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
+        </div>
+        </MuiThemeProvider>
+         <MuiThemeProvider>
+         <div>
+            <RaisedButton label={"Registrarse como secretaria"} primary={true} style={style} onClick={(event) => this.handleClick(event,'teacher')}/>
         </div>
         </MuiThemeProvider>
         </div>
       )
       loginscreen.push(<Login parentContext={this} appContext={this.props.appContext} role={userRole}/>);
-      loginmessage = "Not Registered yet.Go to registration";
+      loginmessage = "¿Aún no tienes cuenta? ¡Registrate ya!";
       this.setState({
                      loginscreen:loginscreen,
                      loginmessage:loginmessage,

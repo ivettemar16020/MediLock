@@ -18,19 +18,19 @@ class Login extends Component {
       <MuiThemeProvider>
         <div>
          <TextField
-           hintText="Enter your College Rollno"
-           floatingLabelText="Student Id"
+           hintText="Ingresa tu nombre de usuario"
+           floatingLabelText="ID Paciente"
            onChange = {(event,newValue)=>this.setState({username:newValue})}
            />
          <br/>
            <TextField
-             type="password"
-             hintText="Enter your Password"
-             floatingLabelText="Password"
+             type="Contraseña"
+             hintText="Ingresa tu contraseña"
+             floatingLabelText="Contraseña"
              onChange = {(event,newValue) => this.setState({password:newValue})}
              />
            <br/>
-           <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+           <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
        </div>
        </MuiThemeProvider>
     )
@@ -39,57 +39,57 @@ class Login extends Component {
       password:'',
       menuValue:1,
       loginComponent:localloginComponent,
-      loginRole:'student'
+      loginRole:'paciente'
     }
   }
   componentWillMount(){
   // console.log("willmount prop values",this.props);
   if(this.props.role != undefined){
-    if(this.props.role == 'student'){
-      console.log("in student componentWillMount");
+    if(this.props.role == 'paciente'){
+      console.log("in paciente componentWillMount");
       var localloginComponent=[];
       localloginComponent.push(
         <MuiThemeProvider>
           <div>
            <TextField
-             hintText="Enter your College Rollno"
-             floatingLabelText="Student Id"
+             hintText="Ingresa tu nombre de usuario"
+             floatingLabelText="ID Paciente"
              onChange = {(event,newValue) => this.setState({username:newValue})}
              />
            <br/>
              <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
+               type="Contraseña"
+               hintText="Ingresa tu contraseña"
+               floatingLabelText="Contraseña"
                onChange = {(event,newValue) => this.setState({password:newValue})}
                />
              <br/>
-             <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+             <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
          </div>
          </MuiThemeProvider>
       )
       this.setState({menuValue:1,loginComponent:localloginComponent,loginRole:'student'})
     }
-    else if(this.props.role == 'teacher'){
-      console.log("in teacher componentWillMount");
+    else if(this.props.role == 'medico'){
+      console.log("in medico componentWillMount");
       var localloginComponent=[];
       localloginComponent.push(
         <MuiThemeProvider>
           <div>
            <TextField
-             hintText="Enter your College Rollno"
-             floatingLabelText="Teacher Id"
+             hintText="Ingresa tu nombre de usuario"
+             floatingLabelText="ID médico"
              onChange = {(event,newValue) => this.setState({username:newValue})}
              />
            <br/>
              <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
+               type="Contraseña"
+               hintText="Ingresa tu contraseña"
+               floatingLabelText="Contraseña"
                onChange = {(event,newValue) => this.setState({password:newValue})}
                />
              <br/>
-             <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+             <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
          </div>
          </MuiThemeProvider>
       )
@@ -119,7 +119,7 @@ class Login extends Component {
      }
      else{
        console.log("Username does not exists");
-       alert("Username does not exist");
+       alert("El nombre de usuario no existe");
      }
    })
    .catch(function (error) {
@@ -131,48 +131,48 @@ class Login extends Component {
     var loginRole;
     if(value==1){
       var localloginComponent=[];
-      loginRole='student';
+      loginRole='paciente';
       localloginComponent.push(
         <MuiThemeProvider>
           <div>
            <TextField
-             hintText="Enter your College Rollno"
-             floatingLabelText="Student Id"
+             hintText="Ingresa tu nombre de usuario"
+             floatingLabelText="ID Paciente"
              onChange = {(event,newValue) => this.setState({username:newValue})}
              />
            <br/>
              <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
+               type="Contraseña"
+               hintText="Ingresa tu contraseña"
+               floatingLabelText="Contraseña"
                onChange = {(event,newValue) => this.setState({password:newValue})}
                />
              <br/>
-             <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+             <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
          </div>
          </MuiThemeProvider>
       )
     }
     else if(value == 2){
       var localloginComponent=[];
-      loginRole='teacher';
+      loginRole='medico';
       localloginComponent.push(
         <MuiThemeProvider>
           <div>
            <TextField
-             hintText="Enter your College Rollno"
-             floatingLabelText="Teacher Id"
+             hintText="Ingresa tu nombre de usuario"
+             floatingLabelText="ID médico"
              onChange = {(event,newValue) => this.setState({username:newValue})}
              />
            <br/>
              <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
+               type="Contraseña"
+               hintText="Ingresa tu contraseña"
+               floatingLabelText="Contraseña"
                onChange = {(event,newValue) => this.setState({password:newValue})}
                />
              <br/>
-             <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+             <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
          </div>
          </MuiThemeProvider>
       )
@@ -191,10 +191,11 @@ class Login extends Component {
         </MuiThemeProvider>
         <MuiThemeProvider>
         <div>
-        <p>Login as:</p>
+        <p>Inicia sesión como:</p>
         <DropDownMenu value={this.state.menuValue} onChange={(event,index,value)=>this.handleMenuChange(value)}>
-          <MenuItem value={1} primaryText="Student" />
-          <MenuItem value={2} primaryText="Teacher" />
+          <MenuItem value={1} primaryText="Paciente" />
+          <MenuItem value={2} primaryText="Médico" />
+          <MenuItem value={3} primaryText="Secretaria" />
         </DropDownMenu>
         </div>
         </MuiThemeProvider>
