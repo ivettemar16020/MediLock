@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Login from "./Login"
+import Loginscreen from "./views/Loginscreen"
+import OlvideContrasena from "./views/OlvideContrasena"
 
 class App extends Component {
   constructor(props){
     super(props);
-    this.state={
-      loginscreen:[]
+    this.state = {
+      loggedIn: false
     }
-  }
-
-  componentWillMount(){
-    var loginscreen=[];
-    loginscreen.push(<Login parentContext={this} appContext={this.props.parentContext}/>);
-    this.setState({
-                  loginscreen:loginscreen
-                    })
   }
 
   render() {
     return(
-      <div className="loginscreen">
-        {this.state.loginscreen}
-      </div>
-    );
+      <Loginscreen />
+    )
+    
   }
 }
 
