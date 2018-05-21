@@ -21,7 +21,7 @@ class Register extends Component {
   }
   handleClick(event,role){
     var apiBaseUrl = "http://localhost:4000/api/";
-    //console.log("values in register handler",role);
+    console.log("values in register handler",role);
     var self = this;
     //To be done:check for empty values before hitting submit
     if(this.state.first_name.length>0 && this.state.last_name.length>0 && this.state.email.length>0 && this.state.password.length>0){
@@ -62,13 +62,17 @@ class Register extends Component {
   render() {
     // console.log("props",this.props);
     var userhintText,userLabel;
-    if(this.props.role === "student"){
+    if(this.props.role === "paciente"){
       userhintText="Ingresa tu nombre de usuario",
       userLabel="ID Paciente"
     }
-    else{
+    else if(this.props.role === "médico") {
       userhintText="Ingresa tu nombre de usuario",
       userLabel="ID Médico"
+    }
+    else if(this.props.role === "secretaria") {
+      userhintText="Ingresa tu nombre de usuario",
+      userLabel="ID Secretaria"
     }
     return (
       <div>

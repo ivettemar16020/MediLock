@@ -68,7 +68,7 @@ class Login extends Component {
          </div>
          </MuiThemeProvider>
       )
-      this.setState({menuValue:1,loginComponent:localloginComponent,loginRole:'student'})
+      this.setState({menuValue:1,loginComponent:localloginComponent,loginRole:'paciente'})
     }
     else if(this.props.role == 'medico'){
       console.log("in medico componentWillMount");
@@ -93,7 +93,32 @@ class Login extends Component {
          </div>
          </MuiThemeProvider>
       )
-      this.setState({menuValue:2,loginComponent:localloginComponent,loginRole:'teacher'})
+      this.setState({menuValue:2,loginComponent:localloginComponent,loginRole:'médico'})
+    }
+    else if(this.props.role == 'secretaria'){
+      console.log("in secretaria componentWillMount");
+      var localloginComponent=[];
+      localloginComponent.push(
+        <MuiThemeProvider>
+          <div>
+           <TextField
+             hintText="Ingresa tu nombre de usuario"
+             floatingLabelText="ID secretaria"
+             onChange = {(event,newValue) => this.setState({username:newValue})}
+             />
+           <br/>
+             <TextField
+               type="Contraseña"
+               hintText="Ingresa tu contraseña"
+               floatingLabelText="Contraseña"
+               onChange = {(event,newValue) => this.setState({password:newValue})}
+               />
+             <br/>
+             <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+         </div>
+         </MuiThemeProvider>
+      )
+      this.setState({menuValue:2,loginComponent:localloginComponent,loginRole:'secretaria'})
     }
   }
   }
@@ -155,13 +180,37 @@ class Login extends Component {
     }
     else if(value == 2){
       var localloginComponent=[];
-      loginRole='medico';
+      loginRole='médico';
       localloginComponent.push(
         <MuiThemeProvider>
           <div>
            <TextField
              hintText="Ingresa tu nombre de usuario"
              floatingLabelText="ID médico"
+             onChange = {(event,newValue) => this.setState({username:newValue})}
+             />
+           <br/>
+             <TextField
+               type="Contraseña"
+               hintText="Ingresa tu contraseña"
+               floatingLabelText="Contraseña"
+               onChange = {(event,newValue) => this.setState({password:newValue})}
+               />
+             <br/>
+             <RaisedButton label="Ingresar" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+         </div>
+         </MuiThemeProvider>
+      )
+    }
+    else if(value == 3){
+      var localloginComponent=[];
+      loginRole='secretaria';
+      localloginComponent.push(
+        <MuiThemeProvider>
+          <div>
+           <TextField
+             hintText="Ingresa tu nombre de usuario"
+             floatingLabelText="ID Secretaria"
              onChange = {(event,newValue) => this.setState({username:newValue})}
              />
            <br/>
