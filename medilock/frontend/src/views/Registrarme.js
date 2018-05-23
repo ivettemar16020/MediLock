@@ -113,6 +113,7 @@ class Registrarme extends Component{
         if(puedeRegistrar){
             /* Quita el mensaje de error del telefono */
             this.setState({errorTextTelefono:''});
+            this.props.onCambiarView('login')
 
             /* TODO: CODIGO PARA REGISTRAR AL USUARIO */
 
@@ -122,6 +123,8 @@ class Registrarme extends Component{
 
 
     render(){
+        //console.log("props",this.props);
+        console.log(this.props.role);
         if(this.state.pantallaSignIn ==1){
             return(
                 <div>
