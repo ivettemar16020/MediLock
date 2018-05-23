@@ -98,6 +98,35 @@ class Registrarme extends Component{
         }
     }
 
+    
+    /* Escribe los datos del nuevo usuario en la base de datos */
+    
+    agregarUsuario(rol, ape, nom, contra, co, user){
+        let usuario_data = {
+			id_rol: rol,
+			apellido: ape,
+            contrasena: contra,
+            nombre: nom,
+            username: user,
+            correo: co
+		};
+		//xmlhttprequest()			
+		fetch('http://localhost:3000/api/usuarioNuevo', {
+			method: 'POST',
+			headers: {'Acept':'aplication/json, text/plain, */*', 'Content-Type': 'application/json'},
+			body: JSON.stringify(usuario_data)
+		})
+		.then(function(response){
+			console.log(response)
+			response.json()
+				.then(function(data){
+			})
+		})
+		.catch(function(err){
+			console.log(err)
+		});
+    }
+    
     /* Verifica que los campos obligatorios de la segunda pantalla de registro esten llenos */
     handleRegistrarmeButton(){
         const error = 'Este campo es obligatorio' //Mensaje de error si hay un campo obligatorio no lleno
@@ -116,8 +145,29 @@ class Registrarme extends Component{
             this.props.onCambiarView('login')
 
             /* TODO: CODIGO PARA REGISTRAR AL USUARIO */
-
-
+         let usuario_data = {
+			id_rol: this.props.role,
+			apellido: this.state.apellido,
+            contrasena: this.state.contrasena,
+            nombre: this.state.nombre,
+            username: this.state.username,
+            correo: this.state.correo
+		};
+		//xmlhttprequest()			
+		fetch('http://localhost:3000/api/usuarioNuevo', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(usuario_data)
+		})
+		.then(function(response){
+			console.log(response)
+			response.json()
+				.then(function(data){
+			})
+		})
+		.catch(function(err){
+			console.log(err)
+		});
         }
     }
 

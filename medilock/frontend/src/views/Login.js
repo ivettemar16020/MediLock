@@ -15,7 +15,7 @@ class Login extends Component {
             username:'',
             contrasena:'',
             role:'Paciente',
-            floatinTextUsername:'Usuario Paciente',
+            floatinTextUsername:'Correo del Paciente',
             errorTextUsername:'',
             errorTextContrasena:''
         }
@@ -24,6 +24,9 @@ class Login extends Component {
         this.handleCambiarARegstrarmeView = this.handleCambiarARegstrarmeView.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleRoleChange = this.handleRoleChange.bind(this);
+        this.handleRegistrarMedico = this.handleRegistrarMedico.bind(this);
+        this.handleRegistrarPaciente = this.handleRegistrarPaciente.bind(this);
+        this.handleRegistrarSecretaria = this.handleRegistrarSecretaria.bind(this);
     }
 
     /* Cambia el valor de 'view' en la clase de Loginscreen para ir a la pantalla de 'Olvide Contraseña' */
@@ -34,6 +37,21 @@ class Login extends Component {
     /* Cambia el valor de 'view' en la clase de Loginscreen para ir a la pantalla de 'Olvide Contraseña' */
     handleCambiarARegstrarmeView(){
         this.props.onCambiarView('registrarme')
+    }
+    
+    handleRegistrarPaciente(){
+        this.props.onCambiarRole(3);
+        this.handleCambiarARegstrarmeView();
+    }
+    
+    handleRegistrarMedico(){
+        this.props.onCambiarRole(1);
+        this.handleCambiarARegstrarmeView();
+    }
+    
+    handleRegistrarSecretaria(){
+        this.props.onCambiarRole(2);
+        this.handleCambiarARegstrarmeView();
     }
 
     /* Funcion que se llama al presionar el boton de 'Entrar' */
@@ -80,10 +98,10 @@ class Login extends Component {
         }
         /* TODO: Codigo para el Login */
         /* El valor del usuario y contraseña se obtiene 'this.state.username' y 'this.state.contrasena' respectivamente */
-    
+    /*
         let usuario_data = {
-			nombre: 4,
-			apellido: "administrador"
+			correo: this.state.username,
+			contrasena: this.state.contrasena
 		};
 		//xmlhttprequest()			
 		fetch('http://localhost:3000/api/usuarioNuevo', {
@@ -95,18 +113,23 @@ class Login extends Component {
 			console.log(response)
 			response.json()
 				.then(function(data){
+                    console.log(data);
+                    /*this,setState({
+                        valido: data
+                    })
+                    *//*
 			})
 		})
 		.catch(function(err){
 			console.log(err)
 		});
-    
+    */
     
     }
 
     /* Funcion que se llama al hacer cambio de Rol */
     handleRoleChange(value){
-        var floatingTextUser = 'Usuario ' + value;
+        var floatingTextUser = 'Correo del ' + value;
         this.setState({role:value});
         this.setState({floatinTextUsername:floatingTextUser});
     }
@@ -136,7 +159,7 @@ class Login extends Component {
 
                         <TextField 
                             floatingLabelText={this.state.floatinTextUsername}
-                            hintText='Ingresa tu nombre de usuario'
+                            hintText='Correo electrónico'
                             onChange = {(event,newValue) => this.setState({username:newValue})}
                             value={this.state.username}
                             style={styleText}
@@ -167,19 +190,19 @@ class Login extends Component {
                         />
                         <FlatButton 
                             label="Registrarme como paciente" 
-                            onClick={this.handleCambiarARegstrarmeView} 
+                            onClick={this.handleRegistrarPaciente} 
                             secondary={true} 
                             style={styleRegistrarmePButton} 
                         />
                         <FlatButton 
                             label="Registrarme como médico" 
-                            onClick={this.handleCambiarARegstrarmeView} 
+                            onClick={this.handleRegistrarMedico} 
                             secondary={true} 
                             style={styleRegistrarmeMButton} 
                         />
                         <FlatButton 
                             label="Registrarme como secretaria" 
-                            onClick={this.handleCambiarARegstrarmeView} 
+                            onClick={this.handleRegistrarSecretaria} 
                             secondary={true} 
                             style={styleRegistrarmeSButton} 
                         />

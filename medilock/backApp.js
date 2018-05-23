@@ -34,46 +34,54 @@ app.use(function(req, res, next) {
 });
 
 /*
-app.get('/api/Medico', function(request, response){
-	pool.connect(function(err,db,done){
-		if(err){
-			return response.status(400).send(err)
-		} else{
-			db.query('SELECT id_medico as id, nombre, especialidad FROM "Medico"', function(err, table){
-				done();
-
-				if(err){
-					return response.status(400).send(err)
-				}
-				else{
-					return response.status(200).send(table.rows)
-				}
-			})
-		}
-	});
-})
-
-*/
-
 app.post('/api/usuarioNuevo', function(request, response) {
-	//console.log('Adentro de endpoint');
 	pool.connect(function(err, db, done) {
-		//console.log('Adentro de callback de postgres');
 		if (err) {
 			return response.status(400).send(err);
 		}
-		
 		db.query(
-			//'INSERT INTO usuario (nombre, apellido, username, password) VALUES ($1, $2, $3,$4)',
-			//[ request.body.nombre, request.body.especialidad, request.body.username, request.body.pass],
-			(err, table) => {
-				//console.log('Adentro de callback de insert');
+			'SELECT correo FROM usuario WHERE correo = '+request.body.correo+' AND password = '+request.body.contrasena ,
+            (err, table) => {
 				done();
+				if (err){
+                    console.log(err)
+					return response.status(400).send(err);
+				}
+				console.log('DATA INSERTED');
+                console.log(table.rows);
+				response.status(201).send(table.rows);
+			}
+		);
+	});
+});
+*/
 
+app.post('/api/usuarioNuevo', function(request, response) {
+	pool.connect(function(err, db, done) {
+		if (err) {
+			return response.status(400).send(err);
+		}/*
+		console.log(request.body.id_rol)
+        db.query(
+			'INSERT INTO medico (especialidad, id_usuario) VALUES ($1, $2)',
+			[ 'pediatra', 2],
+            (err, table) => {
+				done();
 				if (err){
 					return response.status(400).send(err);
 				}
-				
+				console.log('DATA INSERTED');
+				response.status(201).send({message:'Data inserted!'});
+			}
+		);*/
+		db.query(
+			'INSERT INTO usuario (id_rol, nombre, apellido, username, password, correo) VALUES ($1, $2, $3,$4, $5, $6)',
+			[ request.body.id_rol, request.body.nombre, request.body.apellido, request.body.username, request.body.contrasena, request.body.correo],
+            (err, table) => {
+				done();
+				if (err){
+					return response.status(400).send(err);
+				}
 				console.log('DATA INSERTED');
 				response.status(201).send({message:'Data inserted!'});
 			}
