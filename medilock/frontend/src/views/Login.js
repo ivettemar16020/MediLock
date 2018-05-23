@@ -15,7 +15,7 @@ class Login extends Component {
             username:'',
             contrasena:'',
             role:'Paciente',
-            floatinTextUsername:'ID Paciente',
+            floatinTextUsername:'Usuario Paciente',
             errorTextUsername:'',
             errorTextContrasena:''
         }
@@ -40,7 +40,7 @@ class Login extends Component {
     handleLogin(){
         const errorCampoObligatorio = 'Este campo es obligatorio';
         const errorUsernameInvalido = 'Este usuario es inválido';
-        const errorContrasenaInvalida = 'Esta contrasena es inválida';
+        const errorContrasenaInvalida = 'Esta contraseña es inválida';
 
         var camposLlenos = 0;
 
@@ -106,7 +106,7 @@ class Login extends Component {
 
     /* Funcion que se llama al hacer cambio de Rol */
     handleRoleChange(value){
-        var floatingTextUser = 'ID ' + value;
+        var floatingTextUser = 'Usuario ' + value;
         this.setState({role:value});
         this.setState({floatinTextUsername:floatingTextUser});
     }
@@ -117,7 +117,7 @@ class Login extends Component {
                 <MuiThemeProvider>
                     <div>
                         <AppBar
-                            title="Login"
+                            title="Inicio de sesión"
                             iconElementLeft = {<IconButton></IconButton>}
                         />
                         <img src={require("../images/logoMedilock.jpg")} style={{marginLeft: 220, marginTop: 20}}/>
@@ -129,7 +129,7 @@ class Login extends Component {
                                 style={styleText}
                             >
                                 <MenuItem value={'Paciente'} primaryText="Paciente"/>
-                                <MenuItem value={'Medico'} primaryText="Medico"/>
+                                <MenuItem value={'Medico'} primaryText="Médico"/>
                                 <MenuItem value={'Secretaria'} primaryText="Secretaria"/>
                             </SelectField>
                             <br/>
@@ -154,7 +154,7 @@ class Login extends Component {
                         />
                         <br/>
                         <FlatButton 
-                            label="Olvide Contraseña" 
+                            label="Olvidé mi Contraseña" 
                             onClick={this.handleCambiarAOlvideContrasenaView} 
                             primary={true} 
                             style={styleOlvideContrasenaButton} 
@@ -166,10 +166,22 @@ class Login extends Component {
                             style={styleEntrarButton} 
                         />
                         <FlatButton 
-                            label="Registrarme" 
+                            label="Registrarme como paciente" 
                             onClick={this.handleCambiarARegstrarmeView} 
-                            primary={true} 
-                            style={styleRegistrarmeButton} 
+                            secondary={true} 
+                            style={styleRegistrarmePButton} 
+                        />
+                        <FlatButton 
+                            label="Registrarme como médico" 
+                            onClick={this.handleCambiarARegstrarmeView} 
+                            secondary={true} 
+                            style={styleRegistrarmeMButton} 
+                        />
+                        <FlatButton 
+                            label="Registrarme como secretaria" 
+                            onClick={this.handleCambiarARegstrarmeView} 
+                            secondary={true} 
+                            style={styleRegistrarmeSButton} 
                         />
 
                             
@@ -191,11 +203,21 @@ const styleEntrarButton = {
 
 const styleOlvideContrasenaButton = {
     fontSize: '5px', 
-    marginLeft: 160,
+    marginLeft: 250,
 };
 
-const styleRegistrarmeButton = {
+const styleRegistrarmeMButton = {
     fontSize: '5px',
-    marginLeft: 1
+    marginLeft: 300
+};
+
+const styleRegistrarmeSButton = {
+    fontSize: '5px',
+    marginLeft: 300
+};
+
+const styleRegistrarmePButton = {
+    fontSize: '5px',
+    marginLeft: 300
 };
 export default Login;
