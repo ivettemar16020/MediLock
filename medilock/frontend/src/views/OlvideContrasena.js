@@ -44,7 +44,7 @@ class OlvideContrasena extends Component{
                 <MuiThemeProvider>
                     <div>
                         <AppBar
-                            title="Olvide Contraseña"
+                            title="Olvide contraseña"
                             iconElementLeft = {<IconButton><NavigationReturn/></IconButton>}
                             onLeftIconButtonClick={this.handleReturnToLogin}
                         />

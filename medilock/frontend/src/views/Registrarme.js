@@ -11,6 +11,7 @@ import React, { Component}  from 'react';
 
 
 class Registrarme extends Component{
+    
     constructor(props){
         super(props);
         this.state = {
@@ -24,6 +25,8 @@ class Registrarme extends Component{
             domicilio:'',
             sexo:'Masculino',
             peso:'',
+            codigoIngresado:'',
+            codigoEnviado:'',
             pantallaSignIn:1,
             errorTextNombre:'',
             errorTextApellido:'',
@@ -37,8 +40,11 @@ class Registrarme extends Component{
         this.handleRegistrarmeButton = this.handleRegistrarmeButton.bind(this);
         this.handleReturnFromPantallaUno = this.handleReturnFromPantallaUno.bind(this);
         this.handleReturnFromPantallaDos = this.handleReturnFromPantallaDos.bind(this);
+        this.handleVerificarButton = this.handleVerificarButton.bind(this);
     }
 
+
+    
     /* Regresa a la pantalla uno cuando se presiona la flecha de regreso en pantalla dos */
     handleReturnFromPantallaDos(){
         this.setState({pantallaSignIn:1});
@@ -142,7 +148,7 @@ class Registrarme extends Component{
         if(puedeRegistrar){
             /* Quita el mensaje de error del telefono */
             this.setState({errorTextTelefono:''});
-            this.props.onCambiarView('login')
+            //this.props.onCambiarView('login')
 
             /* TODO: CODIGO PARA REGISTRAR AL USUARIO */
          let usuario_data = {
@@ -152,8 +158,28 @@ class Registrarme extends Component{
             nombre: this.state.nombre,
             username: this.state.username,
             correo: this.state.correo
-		};
-		//xmlhttprequest()			
+        };
+
+        // Generar codigo
+        var num = Math.floor((Math.random() * 9999) + 999);
+        
+        var code = num.toString();
+        var largo = code.length;
+
+        // Enviar codigo a numero de telefono
+        const Nexmo = require('nexmo');
+        const nexmo = new Nexmo({
+            apiKey: '7430017c',
+            apiSecret: 'cYL1PoQcxiapwqcm'
+        });
+        const from = 'MediLock'
+        const to = 50259225142
+        const text = 'Codigo de verificacion de cuenta: ' + code
+        nexmo.message.sendSms(from, to, text)
+                
+        this.codigoEnviado = code;
+                
+         //xmlhttprequest()			
 		fetch('http://localhost:3000/api/usuarioNuevo', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
@@ -170,7 +196,14 @@ class Registrarme extends Component{
 		});
         }
     }
-
+   
+    
+    handleVerificarButton(codigoEnvi) {
+        // Ver si el usuario ingresa el codigo correcto
+        if (this.state.codigoIngresado == codigoEnvi) {
+            this.props.onCambiarView('login')
+        }
+    }
 
     render(){
         //console.log("props",this.props);
@@ -295,14 +328,28 @@ class Registrarme extends Component{
                                 value={this.state.peso}
                             />
                             <br/>
-                            
+                           
+
                             <RaisedButton 
                                 label="Registrarme"
                                 primary={true} 
                                 style={styleButton} 
                                 onClick={this.handleRegistrarmeButton}
                             />
-            
+
+                            <TextField
+                                floatingLabelText="Codigo de verificacion de cuenta"
+                                onChange={(event, newValue) => this.setState({ codigo: newValue })}
+                                style={styleText}
+                                value={this.state.codigo}
+                            />
+                            <br />
+                            <RaisedButton
+                                label="Verificar"
+                                primary={true}
+                                style={styleButton}
+                                onClick={this.handleVerificarButton}
+                            />
                                 
                         </div>
                     </MuiThemeProvider>
