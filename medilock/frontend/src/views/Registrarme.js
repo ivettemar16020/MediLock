@@ -131,6 +131,14 @@ class Registrarme extends Component{
         } else {
             puedeRegistrar++;
         }
+
+        /* Verifica que el campo de contraseña este lleno */
+        if(this.state.contrasenaCom === ''){
+            this.setState({errorTextContrasenaCom:error});
+        } else {
+            puedeRegistrar++;
+        }
+
         /* Verifica si el campo de telefono se encuentra lleno */
         if(this.state.telefono === ''){
             this.setState({errorTextTelefono:error});
@@ -139,7 +147,7 @@ class Registrarme extends Component{
         }
 
         /* Si todos los campos obligatorios estan llenos tiene el permiso para registrar */
-        if(puedeRegistrar === 6){
+        if(puedeRegistrar === 7){
             console.log("Entro")
             /* Quita todos los mensajes de errores que se encontraron */
             this.setState({errorTextNombre:'', errorTextApellido:'', errorTextCorreo:'', errorTextUsername:'', errorTextContrasena:'', errorTextContrasenaCom:'', errorTextTelefono:''})
