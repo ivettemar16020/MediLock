@@ -178,21 +178,7 @@ class Registrarme extends Component{
                 
         this.codigoEnviado = code;
                 
-         //xmlhttprequest()         
-        fetch('http://localhost:3000/api/usuarioNuevo', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(usuario_data)
-        })
-        .then(function(response){
-            console.log(response)
-            response.json()
-                .then(function(data){
-            })
-        })
-        .catch(function(err){
-            console.log(err)
-        });
+         
         }
     }
 

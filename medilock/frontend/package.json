@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "cors": "^2.8.4",
     "electron": "^2.0.0",
     "material-ui": "^0.20.1",
     "nexmo": "^2.2.1",
