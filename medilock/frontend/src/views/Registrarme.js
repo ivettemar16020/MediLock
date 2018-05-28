@@ -8,6 +8,8 @@ import NavigationReturn from 'material-ui/svg-icons/navigation/arrow-back';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import React, { Component}  from 'react';
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
 
 
 class Registrarme extends Component{
@@ -18,6 +20,7 @@ class Registrarme extends Component{
             apellido:'',
             username:'',
             correo:'',
+            correoValido:false,
             contrasena:'',
             contrasenaCom:'',
             telefono:'',
@@ -83,52 +86,60 @@ class Registrarme extends Component{
     /* Verifica que los campos obligatorios de la segunda pantalla de registro esten llenos */
     handleRegistrarmeButton(){
         console.log("entro1");
-        const error = 'Este campo es obligatorio' //Mensaje de error si hay un campo obligatorio no lleno
-        var puedeRegistrar = false; //Verificador todos los campos obligatorios estan llenos
+        const error = 'Este campo es obligatorio'; //Mensaje de error si hay un campo obligatorio no lleno
+        const errorEmail = 'El correo ingresado no es válido';
+        var puedeRegistrar = 0; //Verificador todos los campos obligatorios estan llenos
+        var valid = false;
 
         /* Verifica que el campo de nombre este lleno */
         if(this.state.nombre === ''){
             this.setState({errorTextNombre:error});
         } else {
-            puedeRegistrar=true;
+            puedeRegistrar++;
         }
 
         /* Verifica que el campo de apellido este lleno */
         if(this.state.apellido === ''){
             this.setState({errorTextApellido:error});
         } else {
-            puedeRegistrar=true;
+            puedeRegistrar++;
         }
 
         /* Verifica que el campo de correo este lleno */
         if(this.state.correo === ''){
             this.setState({errorTextCorreo:error});
         } else {
-            puedeRegistrar = false;
+            if (this.state.correo.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
+                console.log('correo valido');
+                puedeRegistrar++;
+            }
+            else{
+                this.setState({errorTextCorreo:errorEmail});
+            }
         }
 
         /* Verifica que el campo de username este lleno */
         if(this.state.username === ''){
             this.setState({errorTextUsername:error});
         } else {
-            puedeRegistrar= true;
+            puedeRegistrar++;
         }
 
         /* Verifica que el campo de contraseña este lleno */
         if(this.state.contrasena === ''){
             this.setState({errorTextContrasena:error});
         } else {
-            puedeRegistrar = false;
+            puedeRegistrar++;
         }
         /* Verifica si el campo de telefono se encuentra lleno */
         if(this.state.telefono === ''){
             this.setState({errorTextTelefono:error});
         }else{
-            puedeRegistrar = true;
+            puedeRegistrar++;
         }
 
         /* Si todos los campos obligatorios estan llenos tiene el permiso para registrar */
-        if(puedeRegistrar){
+        if(puedeRegistrar === 6){
             console.log("Entro")
             /* Quita todos los mensajes de errores que se encontraron */
             this.setState({errorTextNombre:'', errorTextApellido:'', errorTextCorreo:'', errorTextUsername:'', errorTextContrasena:'', errorTextContrasenaCom:'', errorTextTelefono:''})
@@ -172,7 +183,7 @@ class Registrarme extends Component{
             apiSecret: 'cYL1PoQcxiapwqcm'
         });
         const from = 'MediLock'
-        const to = 50259225142
+        const to = 50246628250
         const text = 'Codigo de verificacion de cuenta: ' + code
         nexmo.message.sendSms(from, to, text)
                 
