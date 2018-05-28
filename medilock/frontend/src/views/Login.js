@@ -24,9 +24,7 @@ class Login extends Component {
         this.handleCambiarARegstrarmeView = this.handleCambiarARegstrarmeView.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleRoleChange = this.handleRoleChange.bind(this);
-        this.handleRegistrarMedico = this.handleRegistrarMedico.bind(this);
-        this.handleRegistrarPaciente = this.handleRegistrarPaciente.bind(this);
-        this.handleRegistrarSecretaria = this.handleRegistrarSecretaria.bind(this);
+        this.handleRegistrar = this.handleRegistrar.bind(this);
     }
 
     /* Cambia el valor de 'view' en la clase de Loginscreen para ir a la pantalla de 'Olvide Contraseña' */
@@ -39,18 +37,17 @@ class Login extends Component {
         this.props.onCambiarView('registrarme')
     }
     
-    handleRegistrarPaciente(){
-        this.props.onCambiarRole(3);
-        this.handleCambiarARegstrarmeView();
-    }
-    
-    handleRegistrarMedico(){
-        this.props.onCambiarRole(1);
-        this.handleCambiarARegstrarmeView();
-    }
-    
-    handleRegistrarSecretaria(){
-        this.props.onCambiarRole(2);
+    handleRegistrar(){
+        if(this.state.role == "Médico"){
+            this.props.onCambiarRole(1);
+        }
+        if(this.state.role == "Secretarias"){
+            this.props.onCambiarRole(2);
+        }
+        if(this.state.role == "Paciente"){
+            this.props.onCambiarRole(3);
+        }
+        console.log("rol" , this.state.role);
         this.handleCambiarARegstrarmeView();
     }
 
@@ -100,29 +97,29 @@ class Login extends Component {
         /* El valor del usuario y contraseña se obtiene 'this.state.username' y 'this.state.contrasena' respectivamente */
     /*
         let usuario_data = {
-			correo: this.state.username,
-			contrasena: this.state.contrasena
-		};
-		//xmlhttprequest()			
-		fetch('http://localhost:3000/api/usuarioNuevo', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify(usuario_data)
-		})
-		.then(function(response){
-			console.log(response)
-			response.json()
-				.then(function(data){
+            correo: this.state.username,
+            contrasena: this.state.contrasena
+        };
+        //xmlhttprequest()          
+        fetch('http://localhost:3000/api/usuarioNuevo', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(usuario_data)
+        })
+        .then(function(response){
+            console.log(response)
+            response.json()
+                .then(function(data){
                     console.log(data);
                     /*this,setState({
                         valido: data
                     })
                     *//*
-			})
-		})
-		.catch(function(err){
-			console.log(err)
-		});
+            })
+        })
+        .catch(function(err){
+            console.log(err)
+        });
     */
     
     }
@@ -152,7 +149,7 @@ class Login extends Component {
                                 style={styleText}
                             >
                                 <MenuItem value={'Paciente'} primaryText="Paciente"/>
-                                <MenuItem value={'Medico'} primaryText="Médico"/>
+                                <MenuItem value={'Médico'} primaryText="Médico"/>
                                 <MenuItem value={'Secretaria'} primaryText="Secretaria"/>
                             </SelectField>
                             <br/>
@@ -189,24 +186,11 @@ class Login extends Component {
                             style={styleEntrarButton} 
                         />
                         <FlatButton 
-                            label="Registrarme como paciente" 
-                            onClick={this.handleRegistrarPaciente} 
+                            label="Registrarme" 
+                            onClick={this.handleRegistrar} 
                             secondary={true} 
-                            style={styleRegistrarmePButton} 
+                            style={styleRegistrarmeButton} 
                         />
-                        <FlatButton 
-                            label="Registrarme como médico" 
-                            onClick={this.handleRegistrarMedico} 
-                            secondary={true} 
-                            style={styleRegistrarmeMButton} 
-                        />
-                        <FlatButton 
-                            label="Registrarme como secretaria" 
-                            onClick={this.handleRegistrarSecretaria} 
-                            secondary={true} 
-                            style={styleRegistrarmeSButton} 
-                        />
-
                             
                     </div>
                 </MuiThemeProvider>
@@ -229,18 +213,9 @@ const styleOlvideContrasenaButton = {
     marginLeft: 250,
 };
 
-const styleRegistrarmeMButton = {
+const styleRegistrarmeButton = {
     fontSize: '5px',
-    marginLeft: 300
+    marginLeft: 350
 };
 
-const styleRegistrarmeSButton = {
-    fontSize: '5px',
-    marginLeft: 300
-};
-
-const styleRegistrarmePButton = {
-    fontSize: '5px',
-    marginLeft: 300
-};
 export default Login;

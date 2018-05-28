@@ -11,7 +11,6 @@ import React, { Component}  from 'react';
 
 
 class Registrarme extends Component{
-    
     constructor(props){
         super(props);
         this.state = {
@@ -20,11 +19,11 @@ class Registrarme extends Component{
             username:'',
             correo:'',
             contrasena:'',
+            contrasenaCom:'',
             telefono:'',
             departamento:'',
             domicilio:'',
             sexo:'Masculino',
-            peso:'',
             codigoIngresado:'',
             codigoEnviado:'',
             pantallaSignIn:1,
@@ -33,18 +32,16 @@ class Registrarme extends Component{
             errorTextCorreo:'',
             errorTextUsername:'',
             errorTextContrasena:'',
+            errorTextContrasenaCom:'',
             errorTextTelefono:''
         }
 
-        this.handleSiguienteButton = this.handleSiguienteButton.bind(this);
         this.handleRegistrarmeButton = this.handleRegistrarmeButton.bind(this);
         this.handleReturnFromPantallaUno = this.handleReturnFromPantallaUno.bind(this);
         this.handleReturnFromPantallaDos = this.handleReturnFromPantallaDos.bind(this);
-        this.handleVerificarButton = this.handleVerificarButton.bind(this);
+        this.handleVerificarButton = this.handleVerificarButton.bind(this, this.codigoEnviado);
     }
 
-
-    
     /* Regresa a la pantalla uno cuando se presiona la flecha de regreso en pantalla dos */
     handleReturnFromPantallaDos(){
         this.setState({pantallaSignIn:1});
@@ -55,110 +52,112 @@ class Registrarme extends Component{
         this.props.onCambiarView('login');
     }
 
-    /* Verifica que los campos obligatorios de la primera pantalla de registro esten llenos */
-    handleSiguienteButton(){
-        const error = 'Este campo es obligatorio'; //Mensaje de error
-        var puedePasarSiguiente = 0; //Conteo para ver cuantos campos se encuentran llenos
+    /* Escribe los datos del nuevo usuario en la base de datos */
+    
+    agregarUsuario(rol, ape, nom, contra, co, user){
+        let usuario_data = {
+            id_rol: rol,
+            apellido: ape,
+            contrasena: contra,
+            nombre: nom,
+            username: user,
+            correo: co
+        };
+        //xmlhttprequest()          
+        fetch('http://localhost:3000/api/usuarioNuevo', {
+            method: 'POST',
+            headers: {'Acept':'aplication/json, text/plain, */*', 'Content-Type': 'application/json'},
+            body: JSON.stringify(usuario_data)
+        })
+        .then(function(response){
+            console.log(response)
+            response.json()
+                .then(function(data){
+            })
+        })
+        .catch(function(err){
+            console.log(err)
+        });
+    }
+    
+    /* Verifica que los campos obligatorios de la segunda pantalla de registro esten llenos */
+    handleRegistrarmeButton(){
+        console.log("entro1");
+        const error = 'Este campo es obligatorio' //Mensaje de error si hay un campo obligatorio no lleno
+        var puedeRegistrar = false; //Verificador todos los campos obligatorios estan llenos
 
         /* Verifica que el campo de nombre este lleno */
         if(this.state.nombre === ''){
             this.setState({errorTextNombre:error});
         } else {
-            puedePasarSiguiente++;
+            puedeRegistrar=true;
         }
 
         /* Verifica que el campo de apellido este lleno */
         if(this.state.apellido === ''){
             this.setState({errorTextApellido:error});
         } else {
-            puedePasarSiguiente++;
+            puedeRegistrar=true;
         }
 
         /* Verifica que el campo de correo este lleno */
         if(this.state.correo === ''){
             this.setState({errorTextCorreo:error});
         } else {
-            puedePasarSiguiente++;
+            puedeRegistrar = false;
         }
 
         /* Verifica que el campo de username este lleno */
         if(this.state.username === ''){
             this.setState({errorTextUsername:error});
         } else {
-            puedePasarSiguiente++;
+            puedeRegistrar= true;
         }
 
         /* Verifica que el campo de contraseña este lleno */
         if(this.state.contrasena === ''){
             this.setState({errorTextContrasena:error});
         } else {
-            puedePasarSiguiente++;
+            puedeRegistrar = false;
         }
-
-        /* Si todos los campos estan llenos tiene el permiso de pasar a la siguiente pantalla */
-        if(puedePasarSiguiente === 5){
-            this.setState({pantallaSignIn:2});
-
-            /* Quita todos los mensajes de errores que se encontraron */
-            this.setState({errorTextNombre:'', errorTextApellido:'', errorTextCorreo:'', errorTextUsername:'', errorTextContrasena:''})
-        }
-    }
-
-    
-    /* Escribe los datos del nuevo usuario en la base de datos */
-    
-    agregarUsuario(rol, ape, nom, contra, co, user){
-        let usuario_data = {
-			id_rol: rol,
-			apellido: ape,
-            contrasena: contra,
-            nombre: nom,
-            username: user,
-            correo: co
-		};
-		//xmlhttprequest()			
-		fetch('http://localhost:3000/api/usuarioNuevo', {
-			method: 'POST',
-			headers: {'Acept':'aplication/json, text/plain, */*', 'Content-Type': 'application/json'},
-			body: JSON.stringify(usuario_data)
-		})
-		.then(function(response){
-			console.log(response)
-			response.json()
-				.then(function(data){
-			})
-		})
-		.catch(function(err){
-			console.log(err)
-		});
-    }
-    
-    /* Verifica que los campos obligatorios de la segunda pantalla de registro esten llenos */
-    handleRegistrarmeButton(){
-        const error = 'Este campo es obligatorio' //Mensaje de error si hay un campo obligatorio no lleno
-        var puedeRegistrar = true; //Verificador todos los campos obligatorios estan llenos
-
         /* Verifica si el campo de telefono se encuentra lleno */
         if(this.state.telefono === ''){
             this.setState({errorTextTelefono:error});
-            puedeRegistrar = false;
+        }else{
+            puedeRegistrar = true;
         }
 
         /* Si todos los campos obligatorios estan llenos tiene el permiso para registrar */
         if(puedeRegistrar){
-            /* Quita el mensaje de error del telefono */
-            this.setState({errorTextTelefono:''});
-            //this.props.onCambiarView('login')
+            console.log("Entro")
+            /* Quita todos los mensajes de errores que se encontraron */
+            this.setState({errorTextNombre:'', errorTextApellido:'', errorTextCorreo:'', errorTextUsername:'', errorTextContrasena:'', errorTextContrasenaCom:'', errorTextTelefono:''})
+            //this.props.onCambiarView('login');
 
-            /* TODO: CODIGO PARA REGISTRAR AL USUARIO */
+        /* TODO: CODIGO PARA REGISTRAR AL USUARIO */
          let usuario_data = {
-			id_rol: this.props.role,
-			apellido: this.state.apellido,
+            id_rol: this.props.role,
+            apellido: this.state.apellido,
             contrasena: this.state.contrasena,
             nombre: this.state.nombre,
             username: this.state.username,
             correo: this.state.correo
         };
+        //xmlhttprequest()          
+        fetch('http://localhost:3000/api/usuarioNuevo', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(usuario_data)
+        })
+        .then(function(response){
+            console.log(response)
+            response.json()
+                .then(function(data){
+            })
+        })
+        .catch(function(err){
+            console.log(err)
+        });
 
         // Generar codigo
         var num = Math.floor((Math.random() * 9999) + 999);
@@ -179,29 +178,28 @@ class Registrarme extends Component{
                 
         this.codigoEnviado = code;
                 
-         //xmlhttprequest()			
-		fetch('http://localhost:3000/api/usuarioNuevo', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify(usuario_data)
-		})
-		.then(function(response){
-			console.log(response)
-			response.json()
-				.then(function(data){
-			})
-		})
-		.catch(function(err){
-			console.log(err)
-		});
+         //xmlhttprequest()         
+        fetch('http://localhost:3000/api/usuarioNuevo', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(usuario_data)
+        })
+        .then(function(response){
+            console.log(response)
+            response.json()
+                .then(function(data){
+            })
+        })
+        .catch(function(err){
+            console.log(err)
+        });
         }
     }
-   
-    
+
     handleVerificarButton(codigoEnvi) {
-        // Ver si el usuario ingresa el codigo correcto
-        if (this.state.codigoIngresado == codigoEnvi) {
-            this.props.onCambiarView('login')
+    // Ver si el usuario ingresa el codigo correcto
+    if (this.state.codigoIngresado == codigoEnvi) {
+        this.props.onCambiarView('login')
         }
     }
 
@@ -237,16 +235,7 @@ class Registrarme extends Component{
                             <br/>
 
                             <TextField
-                                floatingLabelText="Correo *"
-                                onChange = {(event,newValue) => this.setState({correo:newValue})}
-                                style={styleText}
-                                value={this.state.correo}
-                                errorText={this.state.errorTextCorreo}
-                            />
-                            <br/>
-
-                            <TextField
-                                floatingLabelText="Username *"
+                                floatingLabelText="Nombre de usuario"
                                 onChange = {(event,newValue) => this.setState({username:newValue})}
                                 style={styleText}
                                 value={this.state.username}
@@ -262,54 +251,35 @@ class Registrarme extends Component{
                                 errorText={this.state.errorTextContrasena}
                             />
                             <br/>
-                            
-                            <FlatButton 
-                                label="Siguiente"
-                                primary={true} 
-                                style={styleButton}
-                                onClick={this.handleSiguienteButton}
-                            />
 
-                                
-                        </div>
-                    </MuiThemeProvider>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <MuiThemeProvider>
-                        <div>
-                            <AppBar
-                                title="Registrarme"
-                                iconElementLeft = {<IconButton><NavigationReturn/></IconButton>}
-                                onLeftIconButtonClick={this.handleReturnFromPantallaDos}
+                             
+                            <TextField
+                                floatingLabelText="Confirme su contraseña *"
+                                onChange = {(event,newValue) => this.setState({contrasenaCom:newValue})}
+                                style={styleText}
+                                value={this.state.contrasenaCom}
+                                errorText={this.state.errorTextContrasenaCom}
                             />
-            
-                            <TextField 
-                                floatingLabelText="Telefono *"
+                            <br/>
+
+                            <TextField
+                                floatingLabelText="Correo *"
+                                onChange = {(event,newValue) => this.setState({correo:newValue})}
+                                style={styleText}
+                                value={this.state.correo}
+                                errorText={this.state.errorTextCorreo}
+                            />
+                            <br/>
+
+                             <TextField 
+                                floatingLabelText="Teléfono *"
                                 onChange = {(event,newValue) => this.setState({telefono:newValue})}
                                 style={styleText}
                                 value={this.state.telefono}
                                 errorText={this.state.errorTextTelefono}
                                 />
                             <br/>
-                            <TextField
-                                floatingLabelText="Departamento"
-                                onChange = {(event,newValue) => this.setState({departamento:newValue})}
-                                style={styleText}
-                                value={this.state.departamento}
-                            />
-                            <br/>
-            
-                            <TextField
-                                floatingLabelText="Domicilio"
-                                onChange = {(event,newValue) => this.setState({domicilio:newValue})}
-                                style={styleText}
-                                value={this.state.domicilio}
-                            />
-                            <br/>
-            
+
                             <SelectField
                                 floatingLabelText="Sexo"
                                 value={this.state.sexo}
@@ -320,23 +290,14 @@ class Registrarme extends Component{
                                 <MenuItem value={'Femenino'} primaryText="Femenino"/>
                             </SelectField>
                             <br/>
-            
-                            <TextField
-                                floatingLabelText="Peso"
-                                onChange = {(event,newValue) => this.setState({peso:newValue})}
-                                style={styleText}
-                                value={this.state.peso}
-                            />
-                            <br/>
-                           
-
+                            
                             <RaisedButton 
                                 label="Registrarme"
                                 primary={true} 
                                 style={styleButton} 
                                 onClick={this.handleRegistrarmeButton}
                             />
-
+                            
                             <TextField
                                 floatingLabelText="Codigo de verificacion de cuenta"
                                 onChange={(event, newValue) => this.setState({ codigo: newValue })}
@@ -344,13 +305,13 @@ class Registrarme extends Component{
                                 value={this.state.codigo}
                             />
                             <br />
+
                             <RaisedButton
                                 label="Verificar"
                                 primary={true}
                                 style={styleButton}
                                 onClick={this.handleVerificarButton}
                             />
-                                
                         </div>
                     </MuiThemeProvider>
                 </div>

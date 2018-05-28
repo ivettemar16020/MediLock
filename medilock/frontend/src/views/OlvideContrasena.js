@@ -10,12 +10,14 @@ class OlvideContrasena extends Component{
     constructor(props){
         super(props);
         this.state = {
-            correo: '',
-            errorTextCorreo:''
+            username: '',
+            errorTextUsername:'',
+            telefono:'',
+            errorTelefono:''
         }
 
         this.handleReturnToLogin = this.handleReturnToLogin.bind(this);
-        this.handleEnviarmeCorreo = this.handleEnviarmeCorreo.bind(this);
+        this.handleEnviarmePin = this.handleEnviarmePin.bind(this);
     }
 
     /* Regresa a la pantalla de Login si presiona la flecha de regreso */
@@ -23,16 +25,21 @@ class OlvideContrasena extends Component{
         this.props.onCambiarView('login');
     }
 
-    handleEnviarmeCorreo(){
+    handleEnviarmePin(){
         const error = 'Este campo es obligatorio';
-        var puedeEnviarCorreo = true;
+        var puedeEnviarPin = true;
 
-        if(this.state.correo === ''){
-            this.setState({errorTextCorreo:error});
-            puedeEnviarCorreo = false;
+        if(this.state.username === ''){
+            this.setState({errorTextUsername:error});
+            puedeEnviarPin = false;
         }
 
-        if(puedeEnviarCorreo){
+        if(this.state.telefono === ''){
+            this.setState({errorTelefono:error});
+            puedeEnviarPin = false;
+        }
+
+        if(puedeEnviarPin){
             /* TODO: Codigo para enviar correo de cambio de contraseña */
             /* El valor del correo se encuentra con 'this.state.correo' */
         }
@@ -44,25 +51,33 @@ class OlvideContrasena extends Component{
                 <MuiThemeProvider>
                     <div>
                         <AppBar
-                            title="Olvide contraseña"
+                            title="Olvidé mi contraseña"
                             iconElementLeft = {<IconButton><NavigationReturn/></IconButton>}
                             onLeftIconButtonClick={this.handleReturnToLogin}
                         />
                         <img src={require("../images/logoMedilock.jpg")} style={{marginLeft: 220, marginTop: 20}}/>
 
                         <TextField 
-                            floatingLabelText="Correo electrónico"
-                            onChange = {(event,newValue) => this.setState({correo:newValue})}
+                            floatingLabelText="Nombre de usuario"
+                            onChange = {(event,newValue) => this.setState({username:newValue})}
                             style={styleText}
-                            errorText={this.state.errorTextCorreo}
+                            errorText={this.state.errorTextUsername}
+                            />
+                        <br/>
+
+                        <TextField 
+                            floatingLabelText="Número de teléfono"
+                            onChange = {(event,newValue) => this.setState({telefono:newValue})}
+                            style={styleText}
+                            errorText={this.state.errorTelefono}
                             />
                         <br/>
                         
                         <RaisedButton 
-                            label="Enviarme correo" 
-                            onClick={this.handleEnviarmeCorreo}
+                            label="Enviarme pin" 
+                            onClick={this.handleEnviarmePin}
                             primary={true} 
-                            style={styleEnviarCorreoButton} 
+                            style={styleEnviarPinButton} 
                         />
                             
                     </div>
@@ -76,9 +91,9 @@ const styleText = {
     marginLeft: 280,
 };
 
-const styleEnviarCorreoButton = {
+const styleEnviarPinButton = {
     margin: 15,
-    marginLeft: 320
+    marginLeft: 350
 };
 
 export default OlvideContrasena;
