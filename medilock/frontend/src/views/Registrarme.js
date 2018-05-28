@@ -8,9 +8,6 @@ import NavigationReturn from 'material-ui/svg-icons/navigation/arrow-back';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import React, { Component}  from 'react';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-
 
 class Registrarme extends Component{
     constructor(props){
@@ -91,61 +88,71 @@ class Registrarme extends Component{
         var puedeRegistrar = 0; //Verificador todos los campos obligatorios estan llenos
         var valid = false;
 
-        /* Verifica que el campo de nombre este lleno */
-        if(this.state.nombre === ''){
-            this.setState({errorTextNombre:error});
-        } else {
-            puedeRegistrar++;
-        }
+        while(puedeRegistrar < 7){
 
-        /* Verifica que el campo de apellido este lleno */
-        if(this.state.apellido === ''){
-            this.setState({errorTextApellido:error});
-        } else {
-            puedeRegistrar++;
-        }
-
-        /* Verifica que el campo de correo este lleno */
-        if(this.state.correo === ''){
-            this.setState({errorTextCorreo:error});
-        } else {
-            if (this.state.correo.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
-                console.log('correo valido');
+            /* Verifica que el campo de nombre este lleno */
+            if(this.state.nombre === ''){
+                this.setState({errorTextNombre:error});
+            } else {
+                this.setState({errorTextNombre:''});
                 puedeRegistrar++;
             }
-            else{
-                this.setState({errorTextCorreo:errorEmail});
+
+            /* Verifica que el campo de apellido este lleno */
+            if(this.state.apellido === ''){
+                this.setState({errorTextApellido:error});
+            } else {
+                this.setState({errorTextApellido:''});
+                puedeRegistrar++;
+            }
+
+            /* Verifica que el campo de correo este lleno */
+            if(this.state.correo === ''){
+                this.setState({errorTextCorreo:error});
+            } else {
+                this.setState({errorTextCorreo:''});
+                if (this.state.correo.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
+                    console.log('correo valido');
+                    puedeRegistrar++;
+                    this.setState({errorTextCorreo:''});
+                }
+                else{
+                    this.setState({errorTextCorreo:errorEmail});
+                }
+            }
+
+            /* Verifica que el campo de username este lleno */
+            if(this.state.username === ''){
+                this.setState({errorTextUsername:error});
+            } else {
+                this.setState({errorTextUsername:''});
+                puedeRegistrar++;
+            }
+
+            /* Verifica que el campo de contraseña este lleno */
+            if(this.state.contrasena === ''){
+                this.setState({errorTextContrasena:error});
+            } else {
+                this.setState({errorTextContrasena:''});
+                puedeRegistrar++;
+            }
+
+            /* Verifica que el campo de contraseña este lleno */
+            if(this.state.contrasenaCom === ''){
+                this.setState({errorTextContrasenaCom:error});
+            } else {
+                this.setState({errorTextContrasenaCom:''});
+                puedeRegistrar++;
+            }
+
+            /* Verifica si el campo de telefono se encuentra lleno */
+            if(this.state.telefono === ''){
+                this.setState({errorTextTelefono:error});
+            }else{
+                this.setState({errorTextTelefono:''});
+                puedeRegistrar++;
             }
         }
-
-        /* Verifica que el campo de username este lleno */
-        if(this.state.username === ''){
-            this.setState({errorTextUsername:error});
-        } else {
-            puedeRegistrar++;
-        }
-
-        /* Verifica que el campo de contraseña este lleno */
-        if(this.state.contrasena === ''){
-            this.setState({errorTextContrasena:error});
-        } else {
-            puedeRegistrar++;
-        }
-
-        /* Verifica que el campo de contraseña este lleno */
-        if(this.state.contrasenaCom === ''){
-            this.setState({errorTextContrasenaCom:error});
-        } else {
-            puedeRegistrar++;
-        }
-
-        /* Verifica si el campo de telefono se encuentra lleno */
-        if(this.state.telefono === ''){
-            this.setState({errorTextTelefono:error});
-        }else{
-            puedeRegistrar++;
-        }
-
         /* Si todos los campos obligatorios estan llenos tiene el permiso para registrar */
         if(puedeRegistrar === 7){
             console.log("Entro")
