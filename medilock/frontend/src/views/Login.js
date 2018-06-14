@@ -17,7 +17,8 @@ class Login extends Component {
             role:'Paciente',
             floatinTextUsername:'Correo del Paciente',
             errorTextUsername:'',
-            errorTextContrasena:''
+            errorTextContrasena:'',
+            usuariosdb: []
         }
         
         this.handleCambiarAOlvideContrasenaView = this.handleCambiarAOlvideContrasenaView.bind(this);
@@ -26,7 +27,25 @@ class Login extends Component {
         this.handleRoleChange = this.handleRoleChange.bind(this);
         this.handleRegistrar = this.handleRegistrar.bind(this);
     }
-
+    
+    // Make ajax calls here
+	componentWillMount() {
+		console.log('component has mounted');
+        var that = this
+		fetch('http://localhost:3000/api/usuarios')
+			.then(function(response){
+				//console.log(that.medicos)
+				response.json()
+					.then(function(data){
+						console.log(data);
+						that.setState({
+							usuariosdb: data
+						});
+					})		
+			});
+	}
+    
+    
     /* Cambia el valor de 'view' en la clase de Loginscreen para ir a la pantalla de 'Olvide Contraseña' */
     handleCambiarAOlvideContrasenaView(){
         this.props.onCambiarView('olvideContrasena');
@@ -76,10 +95,17 @@ class Login extends Component {
         /* Si ambos campos estan llenos */
         if(camposLlenos===2){
             this.setState({errorTextUsername:'',errorTextContrasena:''});
+            /*console.log('hola')
+            for (var i = 0; i < this.state.usuariosdb.length; i++){
+                var texto = this.state.usuariosdb[i];
+                var obj = JSON.parse(texto);
+                console.log(obj);
+            }*/
+                
             
             /* TODO: Verificar si los datos son correctos o no */
             const usernameExiste = true;
-            const contrasenaCorrecta = false;
+            const contrasenaCorrecta = true;
 
             
             if(!usernameExiste){ /* Si el usuario es invalido */

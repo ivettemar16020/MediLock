@@ -56,6 +56,25 @@ app.post('/api/usuarioNuevo', function(request, response) {
 });
 */
 
+app.get('/api/usuarios', function(request, response){
+	pool.connect(function(err,db,done){
+		if(err){
+			return response.status(400).send(err)
+		} else{
+			db.query('SELECT correo, password FROM usuario ', function(err, table){
+				done();
+
+				if(err){
+					return response.status(400).send(err)
+				}
+				else{
+					return response.status(200).send(table.rows)
+				}
+			})
+		}
+	});
+})
+
 app.post('/api/usuarioNuevo', function(request, response) {
 	pool.connect(function(err, db, done) {
 		if (err) {

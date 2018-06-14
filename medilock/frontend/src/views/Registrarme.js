@@ -160,6 +160,43 @@ class Registrarme extends Component{
             this.setState({errorTextNombre:'', errorTextApellido:'', errorTextCorreo:'', errorTextUsername:'', errorTextContrasena:'', errorTextContrasenaCom:'', errorTextTelefono:''})
             //this.props.onCambiarView('login');
 
+
+        // Generar codigo
+        var num = Math.floor((Math.random() * 9999) + 999);
+        
+        var code = num.toString();
+        var largo = code.length;
+        
+       
+
+        // Enviar codigo a numero de telefono
+        const Nexmo = require('nexmo');
+        const nexmo = new Nexmo({
+            apiKey: '7430017c',
+            apiSecret: 'cYL1PoQcxiapwqcm'
+        });
+        
+        const from = 'MediLock'
+        const to = 50242897293
+        const text = 'Codigo de verificacion de cuenta: ' + code
+        //nexmo.message.sendSms(from, to, text)
+        
+        nexmo.message.sendSms(from, to, text, (error, response) => {
+          if(error) {
+            throw error;
+          } else if(response.messages[0].status != '0') {
+            console.error(response);
+            throw 'Nexmo returned back a non-zero status';
+          } else {
+            console.log(response);
+          }
+        });
+                
+        this.codigoEnviado = code;
+                
+         
+        }
+        
         /* TODO: CODIGO PARA REGISTRAR AL USUARIO */
          let usuario_data = {
             id_rol: this.props.role,
@@ -169,6 +206,7 @@ class Registrarme extends Component{
             username: this.state.username,
             correo: this.state.correo
         };
+        
         //xmlhttprequest()          
         fetch('http://localhost:3000/api/usuarioNuevo', {
             method: 'POST',
@@ -185,27 +223,6 @@ class Registrarme extends Component{
             console.log(err)
         });
 
-        // Generar codigo
-        var num = Math.floor((Math.random() * 9999) + 999);
-        
-        var code = num.toString();
-        var largo = code.length;
-
-        // Enviar codigo a numero de telefono
-        const Nexmo = require('nexmo');
-        const nexmo = new Nexmo({
-            apiKey: '7430017c',
-            apiSecret: 'cYL1PoQcxiapwqcm'
-        });
-        const from = 'MediLock'
-        const to = 50246628250
-        const text = 'Codigo de verificacion de cuenta: ' + code
-        nexmo.message.sendSms(from, to, text)
-                
-        this.codigoEnviado = code;
-                
-         
-        }
     }
 
     handleVerificarButton(codigoEnvi) {
@@ -256,6 +273,7 @@ class Registrarme extends Component{
                             <br/>
 
                             <TextField
+                                type="password"
                                 floatingLabelText="Contraseña *"
                                 onChange = {(event,newValue) => this.setState({contrasena:newValue})}
                                 style={styleText}
@@ -266,6 +284,7 @@ class Registrarme extends Component{
 
                              
                             <TextField
+                                type="password"
                                 floatingLabelText="Confirme su contraseña *"
                                 onChange = {(event,newValue) => this.setState({contrasenaCom:newValue})}
                                 style={styleText}
